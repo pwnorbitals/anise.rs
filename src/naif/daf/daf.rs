@@ -200,9 +200,9 @@ impl<'a, R: NAIFSummaryRecord> DAF<'a, R> {
         return Ok(S::from_slice_f64(data));
     }
 
-    pub fn comments(&self) -> Result<String, AniseError> {
+    pub fn comments(&self) -> Result<heapless::String<1024>, AniseError> {
         // TODO: This can be cleaned up to avoid allocating a string. In my initial tests there were a bunch of additional spaces, so I canceled those changes.
-        let mut rslt = String::new();
+        let mut rslt = heapless::String::<1024>::new();
         // FWRD has the initial record of the summary. So we assume that all records between the second record and that one are comments
         for rid in 1..self.file_record.fwrd_idx() {
             match core::str::from_utf8(
@@ -210,15 +210,15 @@ impl<'a, R: NAIFSummaryRecord> DAF<'a, R> {
                     .get(rid * RCRD_LEN..(rid + 1) * RCRD_LEN)
                     .ok_or(AniseError::MalformedData((rid + 1) * RCRD_LEN))?,
             ) {
-                Ok(s) => rslt += s.replace('\u{0}', "\n").trim(),
+                Ok(s) => rslt.push_str(s.replace('\u{0}', "\n").trim()),
                 Err(e) => {
                     let valid_s = core::str::from_utf8(
                         &self.bytes[rid * RCRD_LEN..(rid * RCRD_LEN + e.valid_up_to())],
                     )
                     .unwrap();
-                    rslt += valid_s.replace('\u{0}', "\n").trim()
+                    rslt.push_str(valid_s.replace('\u{0}', "\n").trim())
                 }
-            }
+            };
         }
 
         Ok(rslt)

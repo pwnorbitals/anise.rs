@@ -20,7 +20,7 @@ hifitime = {version = "3.5.0", features = ["asn1der"]}
 memmap2 = "0.5.7"
 crc32fast = "1.3.0"
 der = {version = "0.6.0", features = ["derive", "alloc", "real"]}
-clap = {version = "3.1", features = ["derive"]}
+clap = { version = "4.0.26", features = ["derive"] }
 thiserror = "1.0"
 log = "0.4"
 pretty_env_logger = "0.4"
@@ -30,6 +30,8 @@ nalgebra = "0.31"
 approx = "0.5.1"
 zerocopy = "0.6.1"
 typenum = "1.15"
+rustyline = "10.0.0"
+heapless = "0.7.16"
 
 [dev-dependencies]
 rust-spice = "0.7.3"
@@ -54,3 +56,11 @@ harness = false
 [[bench]]
 name = "crit_ephemerides"
 harness = false
+
+[[bin]]
+name="anise"
+features=["std"]
+
+[[bin]]
+name="repl"
+features=["std"]

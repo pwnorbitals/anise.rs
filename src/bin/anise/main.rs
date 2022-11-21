@@ -1,9 +1,11 @@
 extern crate pretty_env_logger;
 use std::env::{set_var, var};
+mod cli;
 
-use anise::cli::args::{Actions, Args};
-use anise::cli::inspect::{BpcRow, SpkRow};
-use anise::cli::CliErrors;
+use std::fs::File;
+use cli::args::{Actions, Args};
+use cli::inspect::{BpcRow, SpkRow};
+use cli::CliErrors;
 use anise::file_mmap;
 use anise::naif::daf::{DAFFileRecord, NAIFRecord, NAIFSummaryRecord};
 use anise::prelude::*;

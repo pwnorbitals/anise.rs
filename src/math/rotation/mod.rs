@@ -30,6 +30,8 @@ pub trait Rotation<T> {
     // fn inverse(&self) -> Self ?
 }
 
+// TODO : allow multiplication operator for composition of rotations (two matrices, two quaterions etc.)
+
 pub trait ComposeWith<T> {
     type Output;
 

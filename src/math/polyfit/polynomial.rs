@@ -111,6 +111,7 @@ impl<const SIZE: usize> Polynomial<SIZE> {
         self.coefficients[0] = 0.0;
     }
 
+    #[cfg(feature = "std")]
     fn fmt_with_var(&self, f: &mut fmt::Formatter, var: String) -> fmt::Result {
         write!(f, "P({}) = ", var)?;
         let mut data = Vec::with_capacity(SIZE);

@@ -8,13 +8,14 @@
  * Documentation: https://nyxspace.com/
  */
 
+#![cfg_attr(not(feature = "std"), no_std)]
+
 extern crate const_format;
 extern crate der;
 extern crate hifitime;
 extern crate log;
 
 pub mod astro;
-pub mod cli;
 pub mod constants;
 pub mod context;
 pub mod ephemerides;
@@ -38,7 +39,6 @@ pub mod prelude {
     pub use crate::naif::{BPC, SPK};
     pub use crate::structure::units::*;
     pub use crate::time::*;
-    pub use std::fs::File;
 }
 
 /// Defines the number of bytes in a double (prevents magic numbers)
@@ -48,6 +48,7 @@ pub(crate) const DBL_SIZE: usize = 8;
 pub(crate) type NaifId = i32;
 
 /// file_mmap allows reading a file without memory allocation
+#[cfg(feature = "std")]
 #[macro_export]
 macro_rules! file_mmap {
     ($filename:tt) => {
